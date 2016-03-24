@@ -5,8 +5,8 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.mobiquity.amarshall.spotifysync"
-        minSdkVersion 21
+        applicationId "com.andrewkingmarshall.spotifysync"
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -19,9 +19,25 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.spotify.sdk:spotify-auth:1.0.0-beta12@aar'
+    compile 'com.spotify.sdk:spotify-player:1.0.0-beta12@aar'
+    compile 'com.github.kaaes:spotify-web-api-android:0.3.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile('com.amazonaws:aws-android-sdk-s3:2.2.11')
+    compile('com.amazonaws:aws-android-sdk-core:2.2.11')
+    compile('com.amazonaws:aws-android-sdk-cognito:2.2.11')
+    compile('com.amazonaws:aws-android-sdk-sns:2.2.11')
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 }

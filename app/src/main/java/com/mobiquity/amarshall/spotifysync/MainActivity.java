@@ -29,12 +29,15 @@ public class MainActivity extends AppCompatActivity implements
         PlayerNotificationCallback, ConnectionStateCallback {
 
     public static final int PORT = 7591;
-    public static final String ADDRESS = "ec2-52-90-175-243.compute-1.amazonaws.com";
+    public static final String ADDRESS = "ws://ec2-52-90-175-243.compute-1.amazonaws.com";
+    public static final String END_ADDRESS = "/queue";
 
     private Player player;
     private String accessToken;
     private SpotifyInteractor interactor;
     private SpotifyUserValidator validator;
+    private DocClient client;
+    Thread clientThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         validator = new SpotifyUserValidator();
         validator.launchLogin(this);
+        client = new DocClient();
+        clientThread = new Thread(client);
+        clientThread.start();
     }
 
     @Override
@@ -99,8 +105,9 @@ public class MainActivity extends AppCompatActivity implements
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Client myClient = new Client(ADDRESS, PORT);
-                                myClient.execute((Track)adapter.getItem(position));
+                                /*Client myClient = new Client(ADDRESS, PORT);
+                                myClient.execute((Track)adapter.getItem(position));*/
+                                new Thread(client.sendTrack((Track)adapter.getItem(position))).start();
                             }
                         });
                     }
@@ -131,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onDestroy() {
         super.onDestroy();
         Spotify.destroyPlayer(this);
+        clientThread.interrupt();
         super.onDestroy();
     }
 }

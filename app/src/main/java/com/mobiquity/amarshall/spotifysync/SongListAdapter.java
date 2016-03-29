@@ -23,10 +23,11 @@ public class SongListAdapter extends BaseAdapter {
     private Context context;
     private List<SavedTrack> userTracks;
 
-    public SongListAdapter(Context context, List<SavedTrack> tracks){
+    public SongListAdapter(Context context, List<SavedTrack> tracks) {
         this.context = context;
         userTracks = tracks;
     }
+
     @Override
     public int getCount() {
         return userTracks.size();

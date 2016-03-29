@@ -31,13 +31,12 @@ public class MainActivity extends AppCompatActivity implements
     public static final int PORT = 7591;
     public static final String ADDRESS = "ws://ec2-52-90-175-243.compute-1.amazonaws.com";
     public static final String END_ADDRESS = "/queue";
-
+    Thread clientThread;
     private Player player;
     private String accessToken;
     private SpotifyInteractor interactor;
     private SpotifyUserValidator validator;
     private DocClient client;
-    Thread clientThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 /*Client myClient = new Client(ADDRESS, PORT);
                                 myClient.execute((Track)adapter.getItem(position));*/
-                                new Thread(client.sendTrack((Track)adapter.getItem(position))).start();
+                                new Thread(client.sendTrack((Track) adapter.getItem(position))).start();
                             }
                         });
                     }

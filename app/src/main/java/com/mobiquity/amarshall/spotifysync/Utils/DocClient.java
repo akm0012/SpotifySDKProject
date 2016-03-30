@@ -1,8 +1,10 @@
 package com.mobiquity.amarshall.spotifysync.Utils;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mobiquity.amarshall.spotifysync.Models.TrackQueue;
 import com.mobiquity.amarshall.spotifysync.Models.User;
 
 import org.glassfish.tyrus.client.ClientManager;
@@ -21,46 +23,66 @@ import javax.websocket.Session;
 
 import kaaes.spotify.webapi.android.models.Track;
 
-public class DocClient implements Runnable {
+public class DocClient{
     private static CountDownLatch messageLatch;
     private Session currentSession;
+    private static DocClient client;
 
-    public DocClient() {
+    public static DocClient getInstance(){
+        if(client == null){
+            client = new DocClient();
+        }
+        return client;
     }
 
-    @Override
-    public void run() {
-        try {
-            messageLatch = new CountDownLatch(1);
+    public boolean isOpen(){
+        return currentSession != null && currentSession.isOpen();
+    }
 
-            final ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().build();
-            URI uri = new URI(Constants.ADDRESS + ":" + Constants.PORT + Constants.END_ADDRESS);
+    public Runnable startConnection() {
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    messageLatch = new CountDownLatch(1);
 
-            ClientManager manager = ClientManager.createClient();
-            currentSession = manager.connectToServer(new Endpoint() {
-                @Override
-                public void onOpen(Session session, EndpointConfig config) {
-                    session.addMessageHandler(new MessageHandler.Whole<String>() {
+                    final ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().build();
+                    URI uri = new URI(Constants.ADDRESS + ":" + Constants.PORT + Constants.END_ADDRESS);
+
+                    ClientManager manager = ClientManager.createClient();
+                    currentSession = manager.connectToServer(new Endpoint() {
                         @Override
-                        public void onMessage(String message) {
-                            Log.i("Doc", "Receiving: " + message);
-                            Gson gson = new Gson();
-                            //songListModel = gson.fromJson(message, TestSongListModel.class);
-                            messageLatch.countDown();
-                        }
-                    });
-                }
+                        public void onOpen(Session session, EndpointConfig config) {
+                            session.addMessageHandler(new MessageHandler.Whole<String>() {
+                                @Override
+                                public void onMessage(String message) {
+                                    Log.i("Doc", "Receiving: " + message);
+                                    Gson gson = new Gson();
+                                    //songListModel = gson.fromJson(message, TestSongListModel.class);
+                                    if(message.equalsIgnoreCase("error")){
+                                        Log.i("Doc", "error");
+                                    }else{
+                                        Log.i("Doc", message);
+                                        TrackQueue trackQueue = gson.fromJson(message, TrackQueue.class);
 
-                @Override
-                public void onClose(Session session, CloseReason closeReason) {
-                    currentSession = null;
-                    super.onClose(session, closeReason);
+                                    }
+                                    messageLatch.countDown();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onClose(Session session, CloseReason closeReason) {
+                            currentSession = null;
+                            super.onClose(session, closeReason);
+                        }
+                    }, cec, uri);
+                    messageLatch.await(100, TimeUnit.SECONDS);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }, cec, uri);
-            messageLatch.await(100, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            }
+        };
     }
 
     public Runnable sendTrack(Track track) {

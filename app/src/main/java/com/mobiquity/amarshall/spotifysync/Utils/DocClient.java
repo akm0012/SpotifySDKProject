@@ -1,4 +1,4 @@
-package com.mobiquity.amarshall.spotifysync;
+package com.mobiquity.amarshall.spotifysync.Utils;
 
 import android.util.Log;
 
@@ -34,7 +34,7 @@ public class DocClient implements Runnable {
             messageLatch = new CountDownLatch(1);
 
             final ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().build();
-            URI uri = new URI(MainActivity.ADDRESS + ":" + MainActivity.PORT + MainActivity.END_ADDRESS);
+            URI uri = new URI(Constants.ADDRESS + ":" + Constants.PORT + Constants.END_ADDRESS);
 
             ClientManager manager = ClientManager.createClient();
             currentSession = manager.connectToServer(new Endpoint() {

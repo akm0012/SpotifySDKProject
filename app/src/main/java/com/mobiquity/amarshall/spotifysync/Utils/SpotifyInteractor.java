@@ -1,4 +1,4 @@
-package com.mobiquity.amarshall.spotifysync;
+package com.mobiquity.amarshall.spotifysync.Utils;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.models.Pager;

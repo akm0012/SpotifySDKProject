@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mobiquity.amarshall.spotifysync.Models.User;
 import com.mobiquity.amarshall.spotifysync.Utils.DAO;
 import com.mobiquity.amarshall.spotifysync.R;
 
@@ -12,14 +13,21 @@ import com.mobiquity.amarshall.spotifysync.Utils.SpotifyUserValidator;
 
 import com.mobiquity.amarshall.spotifysync.UI.BaseActivity;
 
+import kaaes.spotify.webapi.android.models.Track;
+
 public class MainActivity extends BaseActivity {
 
     private SpotifyUserValidator validator;
+    private User userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userData = new User();
+        userData.setUserId("jfowler");
+        userData.setQueueId(0L);
 
         // Lock the UI until we are logged in
         lockUI();
@@ -45,12 +53,14 @@ public class MainActivity extends BaseActivity {
 
                 case R.id.button_createPlaylist:
                     //TODO: lots of things
-                    Toast.makeText(MainActivity.this, "TODO", Toast.LENGTH_SHORT).show();
+                    new Thread(client.startQueue(userData)).start();
+                    startActivity(new Intent(MainActivity.this, PlaylistActivity.class));
                     break;
 
                 case R.id.button_joinPlaylist:
                     //TODO: lots of things
-                    Toast.makeText(MainActivity.this, "TODO", Toast.LENGTH_SHORT).show();
+                    new Thread(client.joinQueue(userData)).start();
+                    startActivity(new Intent(MainActivity.this, PlaylistActivity.class));
                     break;
 
                 case R.id.loadingOverlay:

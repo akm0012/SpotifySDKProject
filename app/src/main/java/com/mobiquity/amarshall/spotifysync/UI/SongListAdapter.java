@@ -22,9 +22,9 @@ import kaaes.spotify.webapi.android.models.Track;
 public class SongListAdapter extends BaseAdapter {
 
     private Context context;
-    private List<SavedTrack> userTracks;
+    private List<Track> userTracks;
 
-    public SongListAdapter(Context context, List<SavedTrack> tracks) {
+    public SongListAdapter(Context context, List<Track> tracks) {
         this.context = context;
         userTracks = tracks;
     }
@@ -36,7 +36,7 @@ public class SongListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return userTracks.get(position).track;
+        return userTracks.get(position);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class SongListAdapter extends BaseAdapter {
         }
 
         // Bind the data efficiently with the holder.
-        Track track = userTracks.get(position).track;
+        Track track = userTracks.get(position);
         holder.songTitle.setText(track.name);
         holder.artist.setText(track.artists.get(0).name);
         Glide.with(context).load(track.album.images.get(0).url).into(holder.albumArt);

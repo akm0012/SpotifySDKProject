@@ -21,6 +21,9 @@ import com.spotify.sdk.android.player.PlayerNotificationCallback;
 import com.spotify.sdk.android.player.PlayerState;
 import com.spotify.sdk.android.player.Spotify;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
@@ -30,19 +33,14 @@ import retrofit.client.Response;
 
 public class AddSongActivity extends BaseActivity implements PlayerNotificationCallback, ConnectionStateCallback {
 
-    Thread clientThread;
     private Player player;
     private String accessToken;
     private SpotifyInteractor interactor;
-    private DocClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
-        client = new DocClient();
-        clientThread = new Thread(client);
-        clientThread.start();
     }
 
     @Override
@@ -56,14 +54,14 @@ public class AddSongActivity extends BaseActivity implements PlayerNotificationC
             @Override
             public void success(Pager<SavedTrack> savedTrackPager, Response response) {
                 ListView listView = (ListView) findViewById(R.id.songs);
-                final SongListAdapter adapter = new SongListAdapter(AddSongActivity.this, savedTrackPager.items);
+                final SongListAdapter adapter = new SongListAdapter(AddSongActivity.this, convertSavedTracksToTracks(savedTrackPager.items));
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 /*Client myClient = new Client(ADDRESS, PORT);
                                 myClient.execute((Track)adapter.getItem(position));*/
-                        new Thread(client.sendTrack((Track) adapter.getItem(position))).start();
+                        new Thread(AddSongActivity.this.client.sendTrack((Track) adapter.getItem(position))).start();
                     }
                 });
             }
@@ -127,6 +125,13 @@ public class AddSongActivity extends BaseActivity implements PlayerNotificationC
     protected void onDestroy() {
         super.onDestroy();
         Spotify.destroyPlayer(this);
-        clientThread.interrupt();
+    }
+
+    private List<Track> convertSavedTracksToTracks(List<SavedTrack> savedTracks){
+        List<Track> tracks = new ArrayList<>();
+        for(SavedTrack savedTrack : savedTracks){
+            tracks.add(savedTrack.track);
+        }
+        return tracks;
     }
 }

@@ -24,6 +24,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".UI.Activites.AddSongActivity">
         </activity>
+        <activity android:name=".UI.Activites.PlaylistActivity">
+        </activity>
     </application>
 
 </manifest>

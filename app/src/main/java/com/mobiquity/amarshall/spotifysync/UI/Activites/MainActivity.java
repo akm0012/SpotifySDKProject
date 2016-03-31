@@ -1,5 +1,8 @@
 package com.mobiquity.amarshall.spotifysync.UI.Activites;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +15,6 @@ import com.mobiquity.amarshall.spotifysync.R;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyUserValidator;
 
 import com.mobiquity.amarshall.spotifysync.UI.BaseActivity;
-
-import kaaes.spotify.webapi.android.models.Track;
 
 public class MainActivity extends BaseActivity {
 
@@ -34,42 +35,27 @@ public class MainActivity extends BaseActivity {
         validator = new SpotifyUserValidator();
         validator.launchLogin(this);
 
-        findViewById(R.id.button_addSong).setOnClickListener(onClickListener);
-        findViewById(R.id.button_createPlaylist).setOnClickListener(onClickListener);
-        findViewById(R.id.button_joinPlaylist).setOnClickListener(onClickListener);
-        findViewById(R.id.loadingOverlay).setOnClickListener(onClickListener);
+        loadFragmentSlideRight(ServerDebugFragment.newInstance());
     }
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    private void loadFragmentSlideRight(Fragment nextFragment) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        int id = R.id.fragmentContainer;
 
-            switch (v.getId()) {
-
-                case R.id.button_addSong:
-                    //TODO: lots of things
-                    startActivity(new Intent(MainActivity.this, AddSongActivity.class));
-                    break;
-
-                case R.id.button_createPlaylist:
-                    //TODO: lots of things
-                    new Thread(client.startQueue(userData)).start();
-                    startActivity(new Intent(MainActivity.this, PlaylistActivity.class));
-                    break;
-
-                case R.id.button_joinPlaylist:
-                    //TODO: lots of things
-                    new Thread(client.joinQueue(userData)).start();
-                    startActivity(new Intent(MainActivity.this, PlaylistActivity.class));
-                    break;
-
-                case R.id.loadingOverlay:
-                    // Prevent taps from going through
-                    break;
-            }
-
+        Fragment current = manager.findFragmentById(R.id.fragmentContainer);
+        if (current == null) {
+            transaction.add(id, nextFragment);
+        } else {
+            transaction.setCustomAnimations(R.animator.slide_in_from_right, R.animator.slide_out_to_left, R.animator.slide_in_from_left, R.animator.slide_out_to_right);
+            transaction.replace(id, nextFragment);
+            transaction.addToBackStack(null);
         }
-    };
+        if(!this.isDestroyed()) {
+            transaction.commit();
+        }
+    }
+
 
     public void unlockUI() {
         findViewById(R.id.loadingOverlay).setVisibility(View.GONE);
@@ -93,4 +79,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (!fragmentManager.popBackStackImmediate()) {
+            super.onBackPressed();
+        }
+    }
 }

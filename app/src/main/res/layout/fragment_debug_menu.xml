@@ -1,0 +1,57 @@
+<com.mobiquity.amarshall.spotifysync.UI.CustomViews.AnimatableLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/debugLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:background="@android:color/holo_blue_light"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".UI.Activites.ServerDebugFragment">
+
+
+    <Button
+        android:id="@+id/debugButton_createPlaylist"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Create Playlist"/>
+
+    <Button
+        android:id="@+id/debugButton_joinPlaylist"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Join Playlist"/>
+
+    <Button
+        android:id="@+id/debugButton_leavePlaylist"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Leave Playlist"/>
+
+    <Button
+        android:id="@+id/debugButton_addSong"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Add Song"/>
+
+    <Button
+        android:id="@+id/debugButton_downVote"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Down Vote Song"/>
+
+    <Button
+        android:id="@+id/debugButton_removeDownVote"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Remove Down Vote"/>
+
+
+</com.mobiquity.amarshall.spotifysync.UI.CustomViews.AnimatableLinearLayout>

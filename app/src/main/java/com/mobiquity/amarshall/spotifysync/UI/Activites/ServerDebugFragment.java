@@ -2,9 +2,12 @@ package com.mobiquity.amarshall.spotifysync.UI.Activites;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mobiquity.amarshall.spotifysync.R;
@@ -48,7 +51,9 @@ public class ServerDebugFragment extends Fragment {
         // Add an onClickListener to all the Buttons in this linear layout
         AnimatableLinearLayout linearLayout = (AnimatableLinearLayout) view.findViewById(R.id.debugLinearLayout);
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
-            linearLayout.getChildAt(i).setOnClickListener(onClickListener);
+            if (linearLayout.getChildAt(i) instanceof Button) {
+                linearLayout.getChildAt(i).setOnClickListener(onClickListener);
+            }
         }
     }
 
@@ -63,7 +68,13 @@ public class ServerDebugFragment extends Fragment {
                     break;
 
                 case R.id.debugButton_joinPlaylist:
-                    Toast.makeText(getActivity(), "Join a playlist", Toast.LENGTH_SHORT).show();
+                    String playListIDString = ((EditText) getView().findViewById(R.id.debugEditText_joinPlaylist)).getText().toString();
+                    int playListID = 0;
+                    if (!TextUtils.isEmpty(playListIDString)) {
+                        playListID = Integer.parseInt(playListIDString);
+                    }
+
+                    Toast.makeText(getActivity(), "Join playlist : " + playListID, Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.debugButton_leavePlaylist:

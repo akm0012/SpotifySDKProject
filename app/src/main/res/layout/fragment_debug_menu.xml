@@ -15,42 +15,50 @@
         android:id="@+id/debugButton_createPlaylist"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:text="Create Playlist"/>
+
+    <EditText
+        android:id="@+id/debugEditText_joinPlaylist"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="Playlist ID"
+        android:inputType="number"/>
 
     <Button
         android:id="@+id/debugButton_joinPlaylist"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:text="Join Playlist"/>
-
+    
     <Button
         android:id="@+id/debugButton_leavePlaylist"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:text="Leave Playlist"/>
 
     <Button
         android:id="@+id/debugButton_addSong"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:text="Add Song"/>
 
     <Button
         android:id="@+id/debugButton_downVote"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:text="Down Vote Song"/>
 
     <Button
         android:id="@+id/debugButton_removeDownVote"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:text="Remove Down Vote"/>
 
 

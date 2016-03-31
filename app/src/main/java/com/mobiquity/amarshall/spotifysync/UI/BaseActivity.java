@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mobiquity.amarshall.spotifysync.Interfaces.TrackListener;
-import com.mobiquity.amarshall.spotifysync.Models.TrackQueue;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqModel;
 import com.mobiquity.amarshall.spotifysync.Utils.DAO;
 import com.mobiquity.amarshall.spotifysync.Utils.DocClient;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyInteractor;
@@ -20,7 +20,7 @@ public class BaseActivity extends AppCompatActivity implements TrackListener{
 
     // Nothing now #soon
     protected List<Track> trackList;
-    protected TrackQueue trackQueue;
+    protected SpoqModel spoqModel;
     protected DocClient client;
 
     @Override
@@ -43,9 +43,9 @@ public class BaseActivity extends AppCompatActivity implements TrackListener{
     }
 
     @Override
-    public void onQueueReceived(TrackQueue trackQueue) {
-        this.trackQueue = trackQueue;
+    public void onQueueReceived(SpoqModel spoqModel) {
+        this.spoqModel = spoqModel;
         SpotifyInteractor interactor = new SpotifyInteractor(DAO.PREF_SPOTIFY_TOKEN);
-        interactor.getTracksById(this.trackQueue.getTrackIdList(), this);
+        interactor.getTracksById(this.spoqModel.getPlaylist().getTrackList(), this);
     }
 }

@@ -7,11 +7,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 import com.mobiquity.amarshall.spotifysync.R;
 import com.mobiquity.amarshall.spotifysync.UI.BaseActivity;
 import com.mobiquity.amarshall.spotifysync.UI.SongListAdapter;
 import com.mobiquity.amarshall.spotifysync.Utils.DAO;
-import com.mobiquity.amarshall.spotifysync.Utils.DocClient;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyInteractor;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyUserValidator;
 import com.spotify.sdk.android.player.Config;
@@ -61,7 +61,7 @@ public class AddSongActivity extends BaseActivity implements PlayerNotificationC
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 /*Client myClient = new Client(ADDRESS, PORT);
                                 myClient.execute((Track)adapter.getItem(position));*/
-                        new Thread(AddSongActivity.this.client.sendTrack((Track) adapter.getItem(position))).start();
+                        new Thread(AddSongActivity.this.client.addTrack((SpoqTrack) adapter.getItem(position))).start();
                     }
                 });
             }

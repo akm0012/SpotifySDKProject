@@ -8,27 +8,32 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.mobiquity.amarshall.spotifysync.Models.User;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
 import com.mobiquity.amarshall.spotifysync.Utils.DAO;
 import com.mobiquity.amarshall.spotifysync.R;
 
+import com.mobiquity.amarshall.spotifysync.Utils.SpotifyInteractor;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyUserValidator;
 
 import com.mobiquity.amarshall.spotifysync.UI.BaseActivity;
 
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class MainActivity extends BaseActivity {
 
     private SpotifyUserValidator validator;
-    private User userData;
+    private SpoqUser userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userData = new User();
-        userData.setUserId("jfowler");
-        userData.setQueueId(0L);
+        userData = new SpoqUser();
+        userData.setUserName("jfowler");
 
         // Lock the UI until we are logged in
         lockUI();
@@ -66,14 +71,29 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         String token = validator.getToken(requestCode, resultCode, data);
 
         if (token != null) {
-            unlockUI();
             DAO.getInstance(this).saveSpotifyToken(token);
+            SpotifyInteractor interactor = new SpotifyInteractor(token);
+            interactor.getUserInfo(new Callback<UserPrivate>() {
+                @Override
+                public void success(UserPrivate userPrivate, Response response) {
+                    DAO.getInstance(MainActivity.this).saveSpotifyId(userPrivate.id);
+                    DAO.getInstance(MainActivity.this).saveSpotifyId(userPrivate.display_name);
+                    userData.setMusicServiceId(userPrivate.id);
+                    userData.setUserName(userPrivate.display_name);
+                    unlockUI();
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Toast.makeText(MainActivity.this, "Error retrieving user info", Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             Toast.makeText(MainActivity.this, "Error Logging In. Restart App", Toast.LENGTH_SHORT).show();
         }

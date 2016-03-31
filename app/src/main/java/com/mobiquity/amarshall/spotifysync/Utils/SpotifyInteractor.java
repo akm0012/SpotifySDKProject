@@ -3,6 +3,7 @@ package com.mobiquity.amarshall.spotifysync.Utils;
 import android.os.AsyncTask;
 
 import com.mobiquity.amarshall.spotifysync.Interfaces.TrackListener;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 
 /**
@@ -29,12 +31,16 @@ public class SpotifyInteractor {
         spotifyApi.getService().getMySavedTracks(callback);
     }
 
-    public void getTracksById(List<String> trackIds, TrackListener listener){
+    public void getTracksById(List<SpoqTrack> trackIds, TrackListener listener){
         AsyncTrackRetriever asyncTrackRetriever = new AsyncTrackRetriever(listener);
-        asyncTrackRetriever.execute(trackIds.toArray(new String[trackIds.size()]));
+        asyncTrackRetriever.execute(trackIds.toArray(new SpoqTrack[trackIds.size()]));
     }
 
-    public class AsyncTrackRetriever extends AsyncTask<String, Void, List<Track>>{
+    public void getUserInfo(Callback<UserPrivate> callback){
+        spotifyApi.getService().getMe(callback);
+    }
+
+    public class AsyncTrackRetriever extends AsyncTask<SpoqTrack, Void, List<Track>>{
         TrackListener listener;
 
         public AsyncTrackRetriever(TrackListener trackListener){
@@ -42,11 +48,11 @@ public class SpotifyInteractor {
         }
 
         @Override
-        protected List<Track> doInBackground(String... params) {
+        protected List<Track> doInBackground(SpoqTrack... params) {
             List<Track> trackList = new ArrayList<>();
-            for(String trackId : params){
-                Track track = spotifyApi.getService().getTrack(trackId);
-                trackList.add(track);
+            for(SpoqTrack track : params){
+                Track spotifyTrack = spotifyApi.getService().getTrack(track.getTrackId());
+                trackList.add(spotifyTrack);
             }
             return trackList;
         }

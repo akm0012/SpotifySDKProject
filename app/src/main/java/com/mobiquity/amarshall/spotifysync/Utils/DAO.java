@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 public class DAO {
 
     public static final String PREF_SPOTIFY_TOKEN = "PREF_SPOTIFY_TOKEN";
+    public static final String PREF_SPOTIFY_ID = "PREF_SPOTIFY_ID";
+    public static final String PREF_SPOTIFY_USER_NAME = "PREF_SPOTIFY_USER_NAME";
 
     private static DAO instance;
 
@@ -52,6 +54,46 @@ public class DAO {
      */
     public String getPrefSpotifyToken() {
         return sharedPreferences.getString(PREF_SPOTIFY_TOKEN, null);
+    }
+
+    /**
+     * Saves the spotify id to the DAO.
+     *
+     * @param spotifyId The user's Spotify assigned ID.
+     */
+    public void saveSpotifyId(String spotifyId){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREF_SPOTIFY_ID, spotifyId);
+        editor.apply();
+    }
+
+    /**
+     * Gets the Spotify User id.
+     *
+     * @return The user id, or null if it doesn't exist.
+     */
+    public String getPrefSpotifyId() {
+        return sharedPreferences.getString(PREF_SPOTIFY_ID, null);
+    }
+
+    /**
+     * Saves the spotify name to the DAO.
+     *
+     * @param spotifyUserName The user's Spotify User name.
+     */
+    public void saveSpotifyUserName(String spotifyUserName){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREF_SPOTIFY_USER_NAME, spotifyUserName);
+        editor.apply();
+    }
+
+    /**
+     * Gets the Spotify User name.
+     *
+     * @return The user name, or null if it doesn't exist.
+     */
+    public String getPrefSpotifyUserName() {
+        return sharedPreferences.getString(PREF_SPOTIFY_USER_NAME, null);
     }
 
     /**

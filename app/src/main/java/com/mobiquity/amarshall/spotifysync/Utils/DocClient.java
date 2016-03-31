@@ -1,11 +1,11 @@
 package com.mobiquity.amarshall.spotifysync.Utils;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mobiquity.amarshall.spotifysync.Models.TrackQueue;
-import com.mobiquity.amarshall.spotifysync.Models.User;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqModel;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
 
 import org.glassfish.tyrus.client.ClientManager;
 
@@ -21,21 +21,19 @@ import javax.websocket.EndpointConfig;
 import javax.websocket.MessageHandler;
 import javax.websocket.Session;
 
-import kaaes.spotify.webapi.android.models.Track;
-
-public class DocClient{
+public class DocClient {
     private static CountDownLatch messageLatch;
     private Session currentSession;
     private static DocClient client;
 
-    public static DocClient getInstance(){
-        if(client == null){
+    public static DocClient getInstance() {
+        if (client == null) {
             client = new DocClient();
         }
         return client;
     }
 
-    public boolean isOpen(){
+    public boolean isOpen() {
         return currentSession != null && currentSession.isOpen();
     }
 
@@ -58,13 +56,11 @@ public class DocClient{
                                 public void onMessage(String message) {
                                     Log.i("Doc", "Receiving: " + message);
                                     Gson gson = new Gson();
-                                    //songListModel = gson.fromJson(message, TestSongListModel.class);
-                                    if(message.equalsIgnoreCase("error")){
+                                    if (message.equalsIgnoreCase("error!")) {
                                         Log.i("Doc", "error");
-                                    }else{
+                                    } else {
                                         Log.i("Doc", message);
-                                        TrackQueue trackQueue = gson.fromJson(message, TrackQueue.class);
-
+                                        SpoqModel trackQueue = gson.fromJson(message, SpoqModel.class);
                                     }
                                     messageLatch.countDown();
                                 }
@@ -85,68 +81,65 @@ public class DocClient{
         };
     }
 
-    public Runnable sendTrack(Track track) {
-        if (currentSession != null) {
-            Gson gson = new Gson();
-            final String json = TrackQueueCommands.ADD_SONG + gson.toJson(track);
-            Log.i("Doc", "Sending: " + json);
-            return new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        currentSession.getBasicRemote().sendText(json);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-        }
-        return null;
+    public Runnable addTrack(SpoqTrack track) {
+        Gson gson = new Gson();
+        final String json = TrackQueueCommands.ADD_SONG + gson.toJson(track);
+        return getCommandRunnable(json);
     }
 
-    public Runnable joinQueue(User user) {
-        if (currentSession != null) {
-            Gson gson = new Gson();
-            final String json = TrackQueueCommands.JOIN_QUEUE + gson.toJson(user);
-            Log.i("Doc", "Sending: " + json);
-            return new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        currentSession.getBasicRemote().sendText(json);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-        }
-        return null;
+    public Runnable joinPlaylist(SpoqUser user) {
+        Gson gson = new Gson();
+        final String json = TrackQueueCommands.JOIN_PLAYLIST + gson.toJson(user);
+        return getCommandRunnable(json);
     }
 
-    public Runnable startQueue(User user) {
-        if (currentSession != null) {
-            Gson gson = new Gson();
-            final String json = TrackQueueCommands.START_QUEUE + gson.toJson(user);
-            Log.i("Doc", "Sending: " + json);
-            return new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        currentSession.getBasicRemote().sendText(json);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-        }
-        return null;
+    public Runnable createPlaylist(SpoqUser user) {
+        Gson gson = new Gson();
+        final String json = TrackQueueCommands.CREATE_PLAYLIST + gson.toJson(user);
+        return getCommandRunnable(json);
     }
 
-    static class TrackQueueCommands {
-        public static final String START_QUEUE = "start_queue!";
-        public static final String JOIN_QUEUE = "join_queue!";
-        public static final String LEAVE_QUEUE = "leave_queue!";
+    public Runnable leavePlaylist() {
+        final String json = TrackQueueCommands.LEAVE_PLAYLIST;
+        return getCommandRunnable(json);
+    }
+
+    public Runnable downVoteTrack(SpoqTrack track) {
+        Gson gson = new Gson();
+        final String json = TrackQueueCommands.DOWN_VOTE + gson.toJson(track);
+        return getCommandRunnable(json);
+    }
+
+    public Runnable removeDownVote(SpoqTrack track) {
+        Gson gson = new Gson();
+        final String json = TrackQueueCommands.REMOVE_DOWN_VOTE + gson.toJson(track);
+        return getCommandRunnable(json);
+    }
+
+    public Runnable getCommandRunnable(final String json) {
+        if (currentSession == null) {
+            return null;
+        }
+
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.i("Doc", "Sending: " + json);
+                    currentSession.getBasicRemote().sendText(json);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
+
+    public static class TrackQueueCommands {
+        public static final String CREATE_PLAYLIST = "create_playlist!";
+        public static final String JOIN_PLAYLIST = "join_playlist!";
+        public static final String LEAVE_PLAYLIST = "leave_playlist!";
         public static final String ADD_SONG = "add_song!";
         public static final String DOWN_VOTE = "down_vote!";
+        public static final String REMOVE_DOWN_VOTE = "remove_down_vote!";
     }
 }

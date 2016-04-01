@@ -1,5 +1,6 @@
 package com.mobiquity.amarshall.spotifysync.UI.Activites;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 import com.mobiquity.amarshall.spotifysync.R;
 import com.mobiquity.amarshall.spotifysync.UI.BaseActivity;
@@ -61,7 +63,11 @@ public class AddSongActivity extends BaseActivity implements PlayerNotificationC
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 /*Client myClient = new Client(ADDRESS, PORT);
                                 myClient.execute((Track)adapter.getItem(position));*/
-                        new Thread(AddSongActivity.this.client.addTrack((SpoqTrack) adapter.getItem(position))).start();
+                        Track track = (Track)adapter.getItem(position);
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("trackId", track.id);
+                        AddSongActivity.this.setResult(1000, resultIntent);
+                        AddSongActivity.this.finish();
                     }
                 });
             }

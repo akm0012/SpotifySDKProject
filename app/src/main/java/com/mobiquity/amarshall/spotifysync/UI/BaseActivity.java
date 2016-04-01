@@ -33,7 +33,7 @@ public class BaseActivity extends AppCompatActivity implements TrackListener{
         super.onResume();
         client = DocClient.getInstance();
         if(!client.isOpen()){
-            new Thread(client.startConnection()).start();
+           // new Thread(client.startConnection()).start();
         }
     }
 

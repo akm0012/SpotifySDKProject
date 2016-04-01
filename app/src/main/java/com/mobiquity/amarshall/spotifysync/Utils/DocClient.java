@@ -61,6 +61,7 @@ public class DocClient {
                                     } else {
                                         Log.i("Doc", message);
                                         SpoqModel trackQueue = gson.fromJson(message, SpoqModel.class);
+                                        trackQueue.getPlaylist();
                                     }
                                     messageLatch.countDown();
                                 }

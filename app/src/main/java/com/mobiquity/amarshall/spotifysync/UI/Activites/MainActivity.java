@@ -53,18 +53,23 @@ public class MainActivity extends BaseActivity implements ServiceConnection {
         loadFragmentSlideRight(ServerDebugFragment.newInstance());
     }
 
+    private void bindToWebSocketService() {
+        if (!isBound) {
+            Intent startService = new Intent(this, WebSocketService.class);
+            //TODO: May not want to startTheServiceHere
+//            startService(startService);
+            bindService(startService, this, BIND_AUTO_CREATE);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isBound) {
-            Intent startService = new Intent(this, WebSocketService.class);
-            startService(startService);
-            bindService(startService, this, BIND_AUTO_CREATE);
-        }
+        bindToWebSocketService();
 
         WebSocketReceiver webSocketReceiver = new WebSocketReceiver(this);
-        IntentFilter radioIntentFilter = new IntentFilter(WebSocketService.WEB_SOCKET_SERVICE_BROADCAST);
-        this.registerReceiver(webSocketReceiver, radioIntentFilter);
+        IntentFilter webSocketIntentFilter = new IntentFilter(WebSocketService.WEB_SOCKET_SERVICE_BROADCAST);
+        this.registerReceiver(webSocketReceiver, webSocketIntentFilter);
     }
 
     @Override

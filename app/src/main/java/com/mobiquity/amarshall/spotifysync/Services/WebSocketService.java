@@ -30,14 +30,6 @@ public class WebSocketService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Handler handler = new Handler(getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sendBroadcast("Hello World!");
-            }
-        }, 5000);
-
         if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
 //                case TOGGLE_STREAM_INTENT_CODE:

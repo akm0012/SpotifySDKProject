@@ -8,7 +8,7 @@
     android:background="@android:color/holo_blue_light"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".UI.Activites.ServerDebugFragment">
+    tools:context=".UI.Fragments.ServerDebugFragment">
 
 
     <Button

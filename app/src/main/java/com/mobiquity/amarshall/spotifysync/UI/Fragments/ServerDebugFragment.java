@@ -1,4 +1,4 @@
-package com.mobiquity.amarshall.spotifysync.UI.Activites;
+package com.mobiquity.amarshall.spotifysync.UI.Fragments;
 
 import android.app.Fragment;
 import android.content.Intent;

@@ -3,38 +3,29 @@ package com.mobiquity.amarshall.spotifysync.UI.Activites;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.View;
 import android.widget.Toast;
 
-import com.mobiquity.amarshall.spotifysync.BroadcastReceivers.WebSocketReceiver;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqModel;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
-import com.mobiquity.amarshall.spotifysync.Services.WebSocketService;
+import com.mobiquity.amarshall.spotifysync.R;
 import com.mobiquity.amarshall.spotifysync.UI.Fragments.ServerDebugFragment;
 import com.mobiquity.amarshall.spotifysync.Utils.DAO;
-import com.mobiquity.amarshall.spotifysync.R;
-
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyInteractor;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyUserValidator;
-
-import com.mobiquity.amarshall.spotifysync.UI.BaseActivity;
 
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends BaseActivity implements ServiceConnection {
+public class MainActivity extends CommandActivity {
 
     private SpotifyUserValidator validator;
     private SpoqUser userData;
-    private boolean isBound = false;
-    private WebSocketService.WebSocketBinder binder = null;
+    private SpoqModel spoqModel;
 
 
     @Override
@@ -51,38 +42,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection {
         validator.launchLogin(this);
 
         loadFragmentSlideRight(ServerDebugFragment.newInstance());
-    }
-
-    private void bindToWebSocketService() {
-        if (!isBound) {
-            Intent startService = new Intent(this, WebSocketService.class);
-            //TODO: May not want to startTheServiceHere
-//            startService(startService);
-            bindService(startService, this, BIND_AUTO_CREATE);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        bindToWebSocketService();
-
-        WebSocketReceiver webSocketReceiver = new WebSocketReceiver(this);
-        IntentFilter webSocketIntentFilter = new IntentFilter(WebSocketService.WEB_SOCKET_SERVICE_BROADCAST);
-        this.registerReceiver(webSocketReceiver, webSocketIntentFilter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (isBound) {
-            unbindService(this);
-            isBound = false;
-        }
-    }
-
-    public void showToast(String string) {
-        Toast.makeText(MainActivity.this, string, Toast.LENGTH_SHORT).show();
     }
 
     private void loadFragmentSlideRight(Fragment nextFragment) {
@@ -147,17 +106,5 @@ public class MainActivity extends BaseActivity implements ServiceConnection {
         if (!fragmentManager.popBackStackImmediate()) {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
-        isBound = true;
-        binder = (WebSocketService.WebSocketBinder) service;
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName name) {
-        isBound = true;
-        binder = null;
     }
 }

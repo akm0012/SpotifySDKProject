@@ -37,11 +37,11 @@ public class SpoqModel {
         this.playlist = playlist;
     }
 
-    public void addUser(SpoqUser spoqUser){
+    public void addUser(SpoqUser spoqUser) {
         userMap.put(spoqUser.getMusicServiceId(), spoqUser);
     }
 
-    public void removeUser(String musicServiceId){
+    public void removeUser(String musicServiceId) {
         userMap.remove(musicServiceId);
     }
 }

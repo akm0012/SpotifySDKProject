@@ -61,7 +61,7 @@ public class DAO {
      *
      * @param spotifyId The user's Spotify assigned ID.
      */
-    public void saveSpotifyId(String spotifyId){
+    public void saveSpotifyId(String spotifyId) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREF_SPOTIFY_ID, spotifyId);
         editor.apply();
@@ -81,7 +81,7 @@ public class DAO {
      *
      * @param spotifyUserName The user's Spotify User name.
      */
-    public void saveSpotifyUserName(String spotifyUserName){
+    public void saveSpotifyUserName(String spotifyUserName) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PREF_SPOTIFY_USER_NAME, spotifyUserName);
         editor.apply();

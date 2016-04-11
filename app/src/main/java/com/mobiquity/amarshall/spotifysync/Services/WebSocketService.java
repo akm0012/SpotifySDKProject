@@ -3,15 +3,19 @@ package com.mobiquity.amarshall.spotifysync.Services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 
-import java.io.Serializable;
+import com.google.gson.Gson;
+import com.mobiquity.amarshall.spotifysync.Interfaces.WebSocketListener;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqModel;
+import com.mobiquity.amarshall.spotifysync.Utils.WebSocketManager;
 
-public class WebSocketService extends Service {
+public class WebSocketService extends Service implements WebSocketListener {
 
     public static final String WEB_SOCKET_SERVICE_BROADCAST = "SPOQ_WEB_SOCKET_SERVICE_BROADCAST";
     private WebSocketBinder webSocketBinder;
+    private WebSocketManager webSocketManager;
+    private SpoqModel spoqModel;
 
     public WebSocketService() {
     }
@@ -20,6 +24,8 @@ public class WebSocketService extends Service {
     public void onCreate() {
         super.onCreate();
         webSocketBinder = new WebSocketBinder(this);
+        webSocketManager = new WebSocketManager(this);
+        webSocketManager.startConnection();
     }
 
     @Override
@@ -52,6 +58,32 @@ public class WebSocketService extends Service {
         sendBroadcast(broadcastIntent);
     }
 
+    @Override
+    public void onConnectionClosed() {
+        //TODO - Differentiate between user/system closure of the connection
+    }
+
+    @Override
+    public void onConnectionOpen() {
+
+    }
+
+    @Override
+    public void onSuccess(SpoqModel model) {
+        spoqModel = model;
+        Gson gson = new Gson();
+        sendBroadcast(gson.toJson(spoqModel));
+    }
+
+    @Override
+    public void onFailure(String error) {
+        sendBroadcast(error);
+    }
+
+    public WebSocketManager getWebSocketManager() {
+        return webSocketManager;
+    }
+
     public class WebSocketBinder extends Binder {
         private final WebSocketService webSocketService;
 
@@ -59,7 +91,7 @@ public class WebSocketService extends Service {
             webSocketService = service;
         }
 
-        public WebSocketService getRadioStreamService() {
+        public WebSocketService getWebSocketService() {
             return webSocketService;
         }
     }

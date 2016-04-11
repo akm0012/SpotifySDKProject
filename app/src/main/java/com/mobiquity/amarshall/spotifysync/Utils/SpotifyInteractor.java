@@ -2,7 +2,6 @@ package com.mobiquity.amarshall.spotifysync.Utils;
 
 import android.os.AsyncTask;
 
-import com.mobiquity.amarshall.spotifysync.Interfaces.TrackListener;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 
 import java.util.ArrayList;
@@ -31,26 +30,26 @@ public class SpotifyInteractor {
         spotifyApi.getService().getMySavedTracks(callback);
     }
 
-    public void getTracksById(List<SpoqTrack> trackIds, TrackListener listener){
+   /* public void getTracksById(List<SpoqTrack> trackIds, TrackListener listener) {
         AsyncTrackRetriever asyncTrackRetriever = new AsyncTrackRetriever(listener);
         asyncTrackRetriever.execute(trackIds.toArray(new SpoqTrack[trackIds.size()]));
-    }
+    }*/
 
-    public void getUserInfo(Callback<UserPrivate> callback){
+    public void getUserInfo(Callback<UserPrivate> callback) {
         spotifyApi.getService().getMe(callback);
     }
 
-    public class AsyncTrackRetriever extends AsyncTask<SpoqTrack, Void, List<Track>>{
+    /*public class AsyncTrackRetriever extends AsyncTask<SpoqTrack, Void, List<Track>> {
         TrackListener listener;
 
-        public AsyncTrackRetriever(TrackListener trackListener){
+        public AsyncTrackRetriever(TrackListener trackListener) {
             listener = trackListener;
         }
 
         @Override
         protected List<Track> doInBackground(SpoqTrack... params) {
             List<Track> trackList = new ArrayList<>();
-            for(SpoqTrack track : params){
+            for (SpoqTrack track : params) {
                 Track spotifyTrack = spotifyApi.getService().getTrack(track.getTrackId());
                 trackList.add(spotifyTrack);
             }
@@ -63,5 +62,5 @@ public class SpotifyInteractor {
             listener.onTracksRetrieved(tracks);
             listener = null;
         }
-    }
+    }*/
 }

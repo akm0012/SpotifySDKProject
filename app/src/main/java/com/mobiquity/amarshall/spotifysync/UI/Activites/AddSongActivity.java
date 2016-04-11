@@ -8,8 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 import com.mobiquity.amarshall.spotifysync.R;
 import com.mobiquity.amarshall.spotifysync.UI.BaseActivity;
 import com.mobiquity.amarshall.spotifysync.UI.SongListAdapter;
@@ -63,7 +61,7 @@ public class AddSongActivity extends BaseActivity implements PlayerNotificationC
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 /*Client myClient = new Client(ADDRESS, PORT);
                                 myClient.execute((Track)adapter.getItem(position));*/
-                        Track track = (Track)adapter.getItem(position);
+                        Track track = (Track) adapter.getItem(position);
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("trackId", track.id);
                         AddSongActivity.this.setResult(1000, resultIntent);
@@ -133,9 +131,9 @@ public class AddSongActivity extends BaseActivity implements PlayerNotificationC
         Spotify.destroyPlayer(this);
     }
 
-    private List<Track> convertSavedTracksToTracks(List<SavedTrack> savedTracks){
+    private List<Track> convertSavedTracksToTracks(List<SavedTrack> savedTracks) {
         List<Track> tracks = new ArrayList<>();
-        for(SavedTrack savedTrack : savedTracks){
+        for (SavedTrack savedTrack : savedTracks) {
             tracks.add(savedTrack.track);
         }
         return tracks;

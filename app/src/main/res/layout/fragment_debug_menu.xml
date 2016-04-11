@@ -1,13 +1,13 @@
 <com.mobiquity.amarshall.spotifysync.UI.CustomViews.AnimatableLinearLayout
+    android:id="@+id/debugLinearLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/debugLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
     android:background="@android:color/holo_blue_light"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".UI.Fragments.ServerDebugFragment">
 
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:text="Join Playlist"/>
-    
+
     <Button
         android:id="@+id/debugButton_leavePlaylist"
         android:layout_width="200dp"

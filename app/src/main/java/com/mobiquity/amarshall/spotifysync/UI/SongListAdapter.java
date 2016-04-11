@@ -13,7 +13,6 @@ import com.mobiquity.amarshall.spotifysync.R;
 
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
 
 /**

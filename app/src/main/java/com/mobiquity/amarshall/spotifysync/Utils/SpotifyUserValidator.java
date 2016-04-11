@@ -10,7 +10,7 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 /**
  * Used to retrieve a Spotify Token
  */
-public class SpotifyUserValidator  {
+public class SpotifyUserValidator {
     public static final String CLIENT_ID = "03487ad3b60a4426b6010870a2d07f12";
     public static final String REDIRECT_URI = "spotifytest://callback";
     public static final int REQUEST_CODE = 1337;

@@ -44,11 +44,11 @@ public class SpoqPlaylist {
         this.trackList = trackList;
     }
 
-    public void addSpoqTrack(SpoqTrack track){
+    public void addSpoqTrack(SpoqTrack track) {
         trackList.add(track);
     }
 
-    public void removeSpoqTrack(SpoqTrack track){
+    public void removeSpoqTrack(SpoqTrack track) {
         Iterator<SpoqTrack> setIterator = trackList.iterator();
         while (setIterator.hasNext()) {
             SpoqTrack o = setIterator.next();
@@ -58,7 +58,7 @@ public class SpoqPlaylist {
         }
     }
 
-    public boolean downVoteSpoqTrack(SpoqTrack track, SpoqUser user){
+    public boolean downVoteSpoqTrack(SpoqTrack track, SpoqUser user) {
         boolean trackFound = false;
         for (SpoqTrack o : trackList) {
             if (track.getTrackId().equals(o.getTrackId())) {
@@ -69,7 +69,7 @@ public class SpoqPlaylist {
         return trackFound;
     }
 
-    public boolean removeDownVote(SpoqTrack track, SpoqUser user){
+    public boolean removeDownVote(SpoqTrack track, SpoqUser user) {
         boolean trackFound = false;
         for (SpoqTrack o : trackList) {
             if (track.getTrackId().equals(o.getTrackId())) {

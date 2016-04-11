@@ -9,7 +9,8 @@ import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
 
 
 /**
- * Created by jfowler on 4/11/16.
+ * This class manages the asynctask that the websocket connection runs in.
+ * It also provides methods for spawning command runnables using the AsyncTask.execute(Runnable) method
  */
 public class WebSocketManager {
     private WebsocketClient websocketClient;

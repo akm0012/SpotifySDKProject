@@ -19,6 +19,23 @@
     </style>
 
     <style name="AppTheme.PinButton" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
+
+    <style name="PinTextView">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:theme">@style/AppTheme.PinTextView</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/textview_outline</item>
+        <item name="android:text">6</item>
+    </style>
+    
+    <style name="AppTheme.PinTextView" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 </resources>

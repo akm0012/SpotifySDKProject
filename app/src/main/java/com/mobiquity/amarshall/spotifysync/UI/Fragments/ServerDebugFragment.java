@@ -2,6 +2,8 @@ package com.mobiquity.amarshall.spotifysync.UI.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,6 +65,23 @@ public class ServerDebugFragment extends Fragment {
                     break;
 
                 case R.id.debugButton_removeDownVote:
+                    Toast.makeText(getActivity(), "Remove a down vote", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.debugButton_pin:
+                    Fragment fragment = PinFragment.newInstance();
+                    FragmentManager manager = getFragmentManager();
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    int id = R.id.fragmentContainer;
+
+                    Fragment current = manager.findFragmentById(R.id.fragmentContainer);
+                    if (current == null) {
+                        transaction.add(id, fragment);
+                    } else {
+                        transaction.setCustomAnimations(R.animator.slide_in_from_right, R.animator.slide_out_to_left, R.animator.slide_in_from_left, R.animator.slide_out_to_right);
+                        transaction.replace(id, fragment);
+                        transaction.addToBackStack(null);
+                    }
+                    transaction.commit();
                     Toast.makeText(getActivity(), "Remove a down vote", Toast.LENGTH_SHORT).show();
                     break;
             }

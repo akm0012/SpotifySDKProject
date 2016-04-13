@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqModel;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
 import com.mobiquity.amarshall.spotifysync.R;
+import com.mobiquity.amarshall.spotifysync.UI.Fragments.PinFragment;
 import com.mobiquity.amarshall.spotifysync.UI.Fragments.ServerDebugFragment;
 import com.mobiquity.amarshall.spotifysync.Utils.DAO;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyInteractor;
@@ -21,7 +22,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends CommandActivity {
+public class MainActivity extends CommandActivity implements PinFragment.PinListener {
 
     private SpotifyUserValidator validator;
     private SpoqUser userData;
@@ -37,9 +38,9 @@ public class MainActivity extends CommandActivity {
         userData.setUserName("jfowler");
 
         // Lock the UI until we are logged in
-        lockUI();
-        validator = new SpotifyUserValidator();
-        validator.launchLogin(this);
+        //lockUI();
+        //validator = new SpotifyUserValidator();
+        //validator.launchLogin(this);
 
         loadFragmentSlideRight(ServerDebugFragment.newInstance());
     }
@@ -106,5 +107,10 @@ public class MainActivity extends CommandActivity {
         if (!fragmentManager.popBackStackImmediate()) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onPinEntered(int pin) {
+
     }
 }

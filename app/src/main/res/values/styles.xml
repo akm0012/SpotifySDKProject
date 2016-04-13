@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="PinButton" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="layout_columnWeight">1</item>
+        <item name="layout_rowWeight">1</item>
+        <item name="layout_gravity">fill</item>
+    </style>
+
 </resources>

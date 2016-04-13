@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="PinButton">
         <item name="android:gravity">center</item>
         <item name="android:layout_height">100dp</item>
@@ -13,9 +14,11 @@
         <item name="layout_rowWeight">1</item>
         <item name="layout_gravity">fill</item>
         <item name="android:theme">@style/AppTheme.PinButton</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
-    <style name="AppTheme.PinButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorPrimary</item>
+
+    <style name="AppTheme.PinButton" parent="Widget.AppCompat.Button.Borderless.Colored">
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 </resources>

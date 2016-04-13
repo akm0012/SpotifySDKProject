@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
+    android:background="@color/colorPrimary"
     app:alignmentMode="alignBounds"
     app:columnCount="3"
     app:rowCount="4"
@@ -82,7 +83,7 @@
 
     <android.support.v7.widget.AppCompatButton
         style="@style/PinButton"
-        android:text="holder"
+        android:text="back"
         app:layout_column="2"
         app:layout_row="3"/>
 

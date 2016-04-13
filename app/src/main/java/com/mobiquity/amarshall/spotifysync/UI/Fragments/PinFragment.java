@@ -1,5 +1,6 @@
 package com.mobiquity.amarshall.spotifysync.UI.Fragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import com.mobiquity.amarshall.spotifysync.R;
  * Use the {@link PinFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PinFragment extends android.app.Fragment {
+public class PinFragment extends Fragment {
     private PinListener mListener;
 
     public PinFragment() {

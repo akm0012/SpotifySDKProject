@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
@@ -109,8 +111,33 @@ public class MainActivity extends CommandActivity implements PinFragment.PinList
         }
     }
 
-    @Override
-    public void onPinEntered(int pin) {
 
+    @Override
+    public void onJoinClicked(int pin) {
+        //TODO: Refactor all the getActivity calls to use an interface
+        Toast.makeText(this, "Join Playlist: " + pin, Toast.LENGTH_SHORT).show();
+        lockUI();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                unlockUI();
+            }
+        }, 5000);
+    }
+
+    @Override
+    public void onJoinAndListenClicked(int pin) {
+        onJoinClicked(pin);
+    }
+
+    @Override
+    public void onCreateNewPlaylistClicked() {
+        Toast.makeText(MainActivity.this, "Join a new Playlist", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUserNameChanged() {
+        Toast.makeText(MainActivity.this, "New user name clicked", Toast.LENGTH_SHORT).show();
     }
 }

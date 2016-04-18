@@ -9,6 +9,4 @@
 
     <include layout="@layout/pin_pad_layout" />
 
-    <include layout="@layout/pin_bottom_buttons_layout" />
-
 </LinearLayout>

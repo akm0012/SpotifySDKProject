@@ -8,19 +8,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobiquity.amarshall.spotifysync.R;
-
-import java.util.ArrayList;
 
 /**
  * Used to join or create a playlist.
  */
 public class PinFragment extends Fragment {
-    private PinListener mListener;
+    private PinListener pinListener;
 
     private String pin = "";
 
@@ -68,6 +64,8 @@ public class PinFragment extends Fragment {
         view.findViewById(R.id.pin_button_9).setOnClickListener(onClickListener);
         view.findViewById(R.id.pin_button_delete).setOnClickListener(onClickListener);
 
+        view.findViewById(R.id.join_button).setOnClickListener(onClickListener);
+        view.findViewById(R.id.join_and_listen_button).setOnClickListener(onClickListener);
 
         view.findViewById(R.id.pin_button_0).setOnTouchListener(onTouchListener);
         view.findViewById(R.id.pin_button_1).setOnTouchListener(onTouchListener);
@@ -128,9 +126,31 @@ public class PinFragment extends Fragment {
                 case R.id.pin_button_delete:
                     deleteNumberFromPin();
                     break;
+
+                case R.id.join_button:
+                    joinPlaylist();
+                    break;
+
+                case R.id.join_and_listen_button:
+                    joinAndListenToPlaylist();
+                    break;
             }
         }
     };
+
+    /**
+     * Joins the playlist without enabling live listening.
+     */
+    private void joinPlaylist() {
+        pinListener.onJoinClicked(Integer.parseInt(pin));
+    }
+
+    /**
+     * Joins the playlist and starts playing whatever song the queue is listening to.
+     */
+    private void joinAndListenToPlaylist() {
+        pinListener.onJoinAndListenClicked(Integer.parseInt(pin));
+    }
 
     /**
      * Adds a number to the end of the PIN.
@@ -253,25 +273,25 @@ public class PinFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         if (context instanceof PinListener) {
-            mListener = (PinListener) context;
+            pinListener = (PinListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
-    public String getPin() {
-        return pin;
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        pinListener = null;
     }
 
     public interface PinListener {
-        void onPinEntered(int pin);
+        void onJoinClicked(int pin);
+        void onJoinAndListenClicked(int pin);
+        void onCreateNewPlaylistClicked();
+        void onUserNameChanged();
     }
 }

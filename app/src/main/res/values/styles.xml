@@ -7,35 +7,35 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="PinButton">
-        <item name="android:gravity">center</item>
-        <item name="android:layout_height">100dp</item>
-        <item name="layout_columnWeight">1</item>
-        <item name="layout_rowWeight">1</item>
-        <item name="layout_gravity">fill</item>
-        <item name="android:theme">@style/AppTheme.PinButton</item>
-        <item name="android:textSize">18dp</item>
-        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
-    </style>
-
-    <style name="AppTheme.PinButton" parent="Widget.AppCompat.Button.Borderless.Colored">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
-    </style>
-
-    <style name="PinTextView">
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">70dp</item>
-        <item name="android:theme">@style/AppTheme.PinTextView</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:background">@drawable/textview_outline</item>
-        <item name="android:text">6</item>
-    </style>
-    
     <style name="AppTheme.PinTextView" parent="Widget.AppCompat.EditText">
         <item name="colorControlNormal">@color/colorAccent</item>
     </style>
+
+    <style name="PinDotStyle">
+        <item name="android:src">@drawable/pin_indicator</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">7dp</item>
+        <item name="android:layout_marginLeft">7dp</item>
+    </style>
+
+    <style name="PinDotNumberStyle">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:textSize">@dimen/pin_number_size_zoomed</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">7dp</item>
+        <item name="android:layout_marginLeft">7dp</item>
+    </style>
+
+    <style name="PinPadButtonsStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_gravity">fill</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/pin_number_size_normal</item>
+    </style>
+
 </resources>

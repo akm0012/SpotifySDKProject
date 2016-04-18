@@ -3,11 +3,16 @@ package com.mobiquity.amarshall.spotifysync.UI.Fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mobiquity.amarshall.spotifysync.R;
@@ -44,12 +49,25 @@ public class PinFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pin, container, false);
 
-        initKeypad(view);
+        initUI(view);
 
         return view;
     }
 
-    private void initKeypad(View view) {
+    EditText.OnEditorActionListener onEditorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                //Clear focus here from edittext
+                getView().findViewById(R.id.user_name_edit_text).clearFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+            }
+            return false;
+        }
+    };
+
+    private void initUI(View view) {
 
         // Add the onClickListeners to handle clicks
         view.findViewById(R.id.pin_button_0).setOnClickListener(onClickListener);
@@ -79,6 +97,11 @@ public class PinFragment extends Fragment {
         view.findViewById(R.id.pin_button_9).setOnTouchListener(onTouchListener);
         view.findViewById(R.id.pin_button_delete).setOnTouchListener(onTouchListener);
 
+        ((EditText) view.findViewById(R.id.user_name_edit_text)).setOnEditorActionListener(onEditorActionListener);
+
+        view.findViewById(R.id.user_button).setOnClickListener(onClickListener);
+        view.findViewById(R.id.create_new_playlist_button).setOnClickListener(onClickListener);
+
     }
 
     /**
@@ -86,18 +109,23 @@ public class PinFragment extends Fragment {
      */
     View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(View view, MotionEvent event) {
 
-            switch (event.getAction()) {
+            if (view instanceof TextView) {
+                switch (event.getAction()) {
 
-                case MotionEvent.ACTION_DOWN:
-                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.pin_number_size_zoomed));
-                    break;
+                    case MotionEvent.ACTION_DOWN:
+                        ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.pin_number_size_zoomed));
+                        ((TextView) view).setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+                        break;
 
-                case MotionEvent.ACTION_UP:
-                    ((TextView) v).setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.pin_number_size_normal));
-                    break;
+                    case MotionEvent.ACTION_UP:
+                        ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.pin_number_size_normal));
+                        ((TextView) view).setTextColor(ContextCompat.getColor(getActivity(), R.color.text));
+                        break;
+                }
             }
+
             return false;
         }
     };
@@ -133,6 +161,14 @@ public class PinFragment extends Fragment {
 
                 case R.id.join_and_listen_button:
                     joinAndListenToPlaylist();
+                    break;
+
+                case R.id.user_button:
+                    pinListener.onUserImageTapped();
+                    break;
+
+                case R.id.create_new_playlist_button:
+                    pinListener.onCreateNewPlaylistClicked();
                     break;
             }
         }
@@ -290,8 +326,11 @@ public class PinFragment extends Fragment {
 
     public interface PinListener {
         void onJoinClicked(int pin);
+
         void onJoinAndListenClicked(int pin);
+
         void onCreateNewPlaylistClicked();
-        void onUserNameChanged();
+
+        void onUserImageTapped();
     }
 }

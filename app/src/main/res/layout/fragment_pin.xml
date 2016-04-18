@@ -5,6 +5,8 @@
     android:background="@color/colorPrimary"
     android:orientation="vertical">
 
+    <include layout="@layout/pin_user_and_create_playlist_layout" />
+
     <include layout="@layout/pin_view_layout" />
 
     <include layout="@layout/pin_pad_layout" />

@@ -67,6 +67,7 @@ public class ServerDebugFragment extends Fragment {
                 case R.id.debugButton_removeDownVote:
                     Toast.makeText(getActivity(), "Remove a down vote", Toast.LENGTH_SHORT).show();
                     break;
+
                 case R.id.debugButton_pin:
                     Fragment fragment = PinFragment.newInstance();
                     FragmentManager manager = getFragmentManager();
@@ -82,7 +83,6 @@ public class ServerDebugFragment extends Fragment {
                         transaction.addToBackStack(null);
                     }
                     transaction.commit();
-                    Toast.makeText(getActivity(), "Remove a down vote", Toast.LENGTH_SHORT).show();
                     break;
             }
 

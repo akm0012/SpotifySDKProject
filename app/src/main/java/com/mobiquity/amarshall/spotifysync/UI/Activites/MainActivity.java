@@ -137,7 +137,7 @@ public class MainActivity extends CommandActivity implements PinFragment.PinList
     }
 
     @Override
-    public void onUserNameChanged() {
-        Toast.makeText(MainActivity.this, "New user name clicked", Toast.LENGTH_SHORT).show();
+    public void onUserImageTapped() {
+        Toast.makeText(MainActivity.this, "User Image Tapped", Toast.LENGTH_SHORT).show();
     }
 }

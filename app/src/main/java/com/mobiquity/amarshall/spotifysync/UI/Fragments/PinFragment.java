@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,6 +23,20 @@ import com.mobiquity.amarshall.spotifysync.R;
  */
 public class PinFragment extends Fragment {
     private PinListener pinListener;
+
+    private TextView pinButton0;
+    private TextView pinButton1;
+    private TextView pinButton2;
+    private TextView pinButton3;
+    private TextView pinButton4;
+    private TextView pinButton5;
+    private TextView pinButton6;
+    private TextView pinButton7;
+    private TextView pinButton8;
+    private TextView pinButton9;
+    private TextView pinButtonDelete;
+    private TextView joinButton;
+    private TextView joinAndListenButton;
 
     private String pin = "";
 
@@ -70,32 +85,45 @@ public class PinFragment extends Fragment {
     private void initUI(View view) {
 
         // Add the onClickListeners to handle clicks
-        view.findViewById(R.id.pin_button_0).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_1).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_2).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_3).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_4).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_5).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_6).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_7).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_8).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_9).setOnClickListener(onClickListener);
-        view.findViewById(R.id.pin_button_delete).setOnClickListener(onClickListener);
+        pinButton0 = (TextView) view.findViewById(R.id.pin_button_0);
+        pinButton1 = (TextView) view.findViewById(R.id.pin_button_1);
+        pinButton2 = (TextView) view.findViewById(R.id.pin_button_2);
+        pinButton3 = (TextView) view.findViewById(R.id.pin_button_3);
+        pinButton4 = (TextView) view.findViewById(R.id.pin_button_4);
+        pinButton5 = (TextView) view.findViewById(R.id.pin_button_5);
+        pinButton6 = (TextView) view.findViewById(R.id.pin_button_6);
+        pinButton7 = (TextView) view.findViewById(R.id.pin_button_7);
+        pinButton8 = (TextView) view.findViewById(R.id.pin_button_8);
+        pinButton9 = (TextView) view.findViewById(R.id.pin_button_9);
+        pinButtonDelete = (TextView) view.findViewById(R.id.pin_button_delete);
+        joinButton = (TextView) view.findViewById(R.id.join_button);
+        joinAndListenButton = (TextView) view.findViewById(R.id.join_and_listen_button);
 
-        view.findViewById(R.id.join_button).setOnClickListener(onClickListener);
-        view.findViewById(R.id.join_and_listen_button).setOnClickListener(onClickListener);
+        pinButton0.setOnClickListener(onClickListener);
+        pinButton1.setOnClickListener(onClickListener);
+        pinButton2.setOnClickListener(onClickListener);
+        pinButton3.setOnClickListener(onClickListener);
+        pinButton4.setOnClickListener(onClickListener);
+        pinButton5.setOnClickListener(onClickListener);
+        pinButton6.setOnClickListener(onClickListener);
+        pinButton7.setOnClickListener(onClickListener);
+        pinButton8.setOnClickListener(onClickListener);
+        pinButton9.setOnClickListener(onClickListener);
+        pinButtonDelete.setOnClickListener(onClickListener);
+        joinButton.setOnClickListener(onClickListener);
+        joinAndListenButton.setOnClickListener(onClickListener);
 
-        view.findViewById(R.id.pin_button_0).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_1).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_2).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_3).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_4).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_5).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_6).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_7).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_8).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_9).setOnTouchListener(onTouchListener);
-        view.findViewById(R.id.pin_button_delete).setOnTouchListener(onTouchListener);
+        pinButton0.setOnTouchListener(onTouchListener);
+        pinButton1.setOnTouchListener(onTouchListener);
+        pinButton2.setOnTouchListener(onTouchListener);
+        pinButton3.setOnTouchListener(onTouchListener);
+        pinButton4.setOnTouchListener(onTouchListener);
+        pinButton5.setOnTouchListener(onTouchListener);
+        pinButton6.setOnTouchListener(onTouchListener);
+        pinButton7.setOnTouchListener(onTouchListener);
+        pinButton8.setOnTouchListener(onTouchListener);
+        pinButton9.setOnTouchListener(onTouchListener);
+        pinButtonDelete.setOnTouchListener(onTouchListener);
 
         ((EditText) view.findViewById(R.id.user_name_edit_text)).setOnEditorActionListener(onEditorActionListener);
 

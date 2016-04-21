@@ -24,19 +24,22 @@ import com.mobiquity.amarshall.spotifysync.R;
 public class PinFragment extends Fragment {
     private PinListener pinListener;
 
-    private TextView pinButton0;
-    private TextView pinButton1;
-    private TextView pinButton2;
-    private TextView pinButton3;
-    private TextView pinButton4;
-    private TextView pinButton5;
-    private TextView pinButton6;
-    private TextView pinButton7;
-    private TextView pinButton8;
-    private TextView pinButton9;
-    private TextView pinButtonDelete;
     private TextView joinButton;
     private TextView joinAndListenButton;
+
+    private View pinIndicator1;
+    private View pinIndicator2;
+    private View pinIndicator3;
+    private View pinIndicator4;
+    private View pinIndicator5;
+    private View pinIndicator6;
+
+    private TextView pinSpot1;
+    private TextView pinSpot2;
+    private TextView pinSpot3;
+    private TextView pinSpot4;
+    private TextView pinSpot5;
+    private TextView pinSpot6;
 
     private String pin = "";
 
@@ -84,7 +87,19 @@ public class PinFragment extends Fragment {
 
     private void initUI(View view) {
 
-        // Add the onClickListeners to handle clicks
+        TextView pinButton0;
+        TextView pinButton1;
+        TextView pinButton2;
+        TextView pinButton3;
+        TextView pinButton4;
+        TextView pinButton5;
+        TextView pinButton6;
+        TextView pinButton7;
+        TextView pinButton8;
+        TextView pinButton9;
+        TextView pinButtonDelete;
+
+        // Get a Handle to all the UI elements
         pinButton0 = (TextView) view.findViewById(R.id.pin_button_0);
         pinButton1 = (TextView) view.findViewById(R.id.pin_button_1);
         pinButton2 = (TextView) view.findViewById(R.id.pin_button_2);
@@ -99,6 +114,21 @@ public class PinFragment extends Fragment {
         joinButton = (TextView) view.findViewById(R.id.join_button);
         joinAndListenButton = (TextView) view.findViewById(R.id.join_and_listen_button);
 
+        pinIndicator1 = view.findViewById(R.id.pin_indicator_1);
+        pinIndicator2 = view.findViewById(R.id.pin_indicator_2);
+        pinIndicator3 = view.findViewById(R.id.pin_indicator_3);
+        pinIndicator4 = view.findViewById(R.id.pin_indicator_4);
+        pinIndicator5 = view.findViewById(R.id.pin_indicator_5);
+        pinIndicator6 = view.findViewById(R.id.pin_indicator_6);
+
+        pinSpot1 = (TextView) view.findViewById(R.id.pin_spot_1);
+        pinSpot2 = (TextView) view.findViewById(R.id.pin_spot_2);
+        pinSpot3 = (TextView) view.findViewById(R.id.pin_spot_3);
+        pinSpot4 = (TextView) view.findViewById(R.id.pin_spot_4);
+        pinSpot5 = (TextView) view.findViewById(R.id.pin_spot_5);
+        pinSpot6 = (TextView) view.findViewById(R.id.pin_spot_6);
+
+        // Add onClickListeners
         pinButton0.setOnClickListener(onClickListener);
         pinButton1.setOnClickListener(onClickListener);
         pinButton2.setOnClickListener(onClickListener);
@@ -113,6 +143,7 @@ public class PinFragment extends Fragment {
         joinButton.setOnClickListener(onClickListener);
         joinAndListenButton.setOnClickListener(onClickListener);
 
+        // Add onTouchListeners
         pinButton0.setOnTouchListener(onTouchListener);
         pinButton1.setOnTouchListener(onTouchListener);
         pinButton2.setOnTouchListener(onTouchListener);
@@ -124,6 +155,7 @@ public class PinFragment extends Fragment {
         pinButton8.setOnTouchListener(onTouchListener);
         pinButton9.setOnTouchListener(onTouchListener);
         pinButtonDelete.setOnTouchListener(onTouchListener);
+
 
         ((EditText) view.findViewById(R.id.user_name_edit_text)).setOnEditorActionListener(onEditorActionListener);
 
@@ -226,44 +258,44 @@ public class PinFragment extends Fragment {
         switch (pin.length()) {
 
             case 0:
-                getView().findViewById(R.id.pin_indicator_1).setVisibility(View.GONE);
-                getView().findViewById(R.id.pin_spot_1).setVisibility(View.VISIBLE);
-                ((TextView) getView().findViewById(R.id.pin_spot_1)).setText("" + numberToAdd);
+                pinIndicator1.setVisibility(View.GONE);
+                pinSpot1.setVisibility(View.VISIBLE);
+                pinSpot1.setText("" + numberToAdd);
                 pin += numberToAdd;
                 break;
 
             case 1:
-                getView().findViewById(R.id.pin_indicator_2).setVisibility(View.GONE);
-                getView().findViewById(R.id.pin_spot_2).setVisibility(View.VISIBLE);
-                ((TextView) getView().findViewById(R.id.pin_spot_2)).setText("" + numberToAdd);
+                pinIndicator2.setVisibility(View.GONE);
+                pinSpot2.setVisibility(View.VISIBLE);
+                pinSpot2.setText("" + numberToAdd);
                 pin += numberToAdd;
                 break;
 
             case 2:
-                getView().findViewById(R.id.pin_indicator_3).setVisibility(View.GONE);
-                getView().findViewById(R.id.pin_spot_3).setVisibility(View.VISIBLE);
-                ((TextView) getView().findViewById(R.id.pin_spot_3)).setText("" + numberToAdd);
+                pinIndicator3.setVisibility(View.GONE);
+                pinSpot3.setVisibility(View.VISIBLE);
+                pinSpot3.setText("" + numberToAdd);
                 pin += numberToAdd;
                 break;
 
             case 3:
-                getView().findViewById(R.id.pin_indicator_4).setVisibility(View.GONE);
-                getView().findViewById(R.id.pin_spot_4).setVisibility(View.VISIBLE);
-                ((TextView) getView().findViewById(R.id.pin_spot_4)).setText("" + numberToAdd);
+                pinIndicator4.setVisibility(View.GONE);
+                pinSpot4.setVisibility(View.VISIBLE);
+                pinSpot4.setText("" + numberToAdd);
                 pin += numberToAdd;
                 break;
 
             case 4:
-                getView().findViewById(R.id.pin_indicator_5).setVisibility(View.GONE);
-                getView().findViewById(R.id.pin_spot_5).setVisibility(View.VISIBLE);
-                ((TextView) getView().findViewById(R.id.pin_spot_5)).setText("" + numberToAdd);
+                pinIndicator5.setVisibility(View.GONE);
+                pinSpot5.setVisibility(View.VISIBLE);
+                pinSpot5.setText("" + numberToAdd);
                 pin += numberToAdd;
                 break;
 
             case 5:
-                getView().findViewById(R.id.pin_indicator_6).setVisibility(View.GONE);
-                getView().findViewById(R.id.pin_spot_6).setVisibility(View.VISIBLE);
-                ((TextView) getView().findViewById(R.id.pin_spot_6)).setText("" + numberToAdd);
+                pinIndicator6.setVisibility(View.GONE);
+                pinSpot6.setVisibility(View.VISIBLE);
+                pinSpot6.setText("" + numberToAdd);
                 pin += numberToAdd;
                 unlockJoinButtons();
                 break;
@@ -278,38 +310,38 @@ public class PinFragment extends Fragment {
         switch (pin.length()) {
 
             case 1:
-                getView().findViewById(R.id.pin_indicator_1).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.pin_spot_1).setVisibility(View.GONE);
+                pinIndicator1.setVisibility(View.VISIBLE);
+                pinSpot1.setVisibility(View.GONE);
                 pin = "";
                 break;
 
             case 2:
-                getView().findViewById(R.id.pin_indicator_2).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.pin_spot_2).setVisibility(View.GONE);
+                pinIndicator2.setVisibility(View.VISIBLE);
+                pinSpot2.setVisibility(View.GONE);
                 pin = pin.substring(0, pin.length() - 1);
                 break;
 
             case 3:
-                getView().findViewById(R.id.pin_indicator_3).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.pin_spot_3).setVisibility(View.GONE);
+                pinIndicator3.setVisibility(View.VISIBLE);
+                pinSpot3.setVisibility(View.GONE);
                 pin = pin.substring(0, pin.length() - 1);
                 break;
 
             case 4:
-                getView().findViewById(R.id.pin_indicator_4).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.pin_spot_4).setVisibility(View.GONE);
+                pinIndicator4.setVisibility(View.VISIBLE);
+                pinSpot4.setVisibility(View.GONE);
                 pin = pin.substring(0, pin.length() - 1);
                 break;
 
             case 5:
-                getView().findViewById(R.id.pin_indicator_5).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.pin_spot_5).setVisibility(View.GONE);
+                pinIndicator5.setVisibility(View.VISIBLE);
+                pinSpot5.setVisibility(View.GONE);
                 pin = pin.substring(0, pin.length() - 1);
                 break;
 
             case 6:
-                getView().findViewById(R.id.pin_indicator_6).setVisibility(View.VISIBLE);
-                getView().findViewById(R.id.pin_spot_6).setVisibility(View.GONE);
+                pinIndicator6.setVisibility(View.VISIBLE);
+                pinSpot6.setVisibility(View.GONE);
                 pin = pin.substring(0, pin.length() - 1);
                 break;
         }
@@ -321,16 +353,16 @@ public class PinFragment extends Fragment {
      * Enables the Join buttons to allow the user to move to the next screen.
      */
     private void unlockJoinButtons() {
-        getView().findViewById(R.id.join_button).setEnabled(true);
-        getView().findViewById(R.id.join_and_listen_button).setEnabled(true);
+        joinButton.setEnabled(true);
+        joinAndListenButton.setEnabled(true);
     }
 
     /**
      * Disabled the Join buttons to block the user from moving to the next screen.
      */
     private void lockJoinButtons() {
-        getView().findViewById(R.id.join_button).setEnabled(false);
-        getView().findViewById(R.id.join_and_listen_button).setEnabled(false);
+        joinButton.setEnabled(false);
+        joinAndListenButton.setEnabled(false);
     }
 
 

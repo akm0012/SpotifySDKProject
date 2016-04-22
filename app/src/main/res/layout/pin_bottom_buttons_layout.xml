@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?android:buttonBarStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/join_button"
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:layout_weight="1"
+        android:enabled="false"
+        android:text="@string/join"
+        android:textSize="@dimen/pin_button_text_size" />
+
+    <Button
+        android:id="@+id/join_and_listen_button"
+        style="?android:buttonBarButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:layout_weight="1"
+        android:enabled="false"
+        android:text="@string/join_and_listen"
+        android:textSize="@dimen/pin_button_text_size" />
+
+</LinearLayout>

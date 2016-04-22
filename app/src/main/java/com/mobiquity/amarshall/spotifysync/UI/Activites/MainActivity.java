@@ -5,12 +5,15 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
 import com.mobiquity.amarshall.spotifysync.Models.SpoqModel;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
 import com.mobiquity.amarshall.spotifysync.R;
+import com.mobiquity.amarshall.spotifysync.UI.Fragments.PinFragment;
 import com.mobiquity.amarshall.spotifysync.UI.Fragments.ServerDebugFragment;
 import com.mobiquity.amarshall.spotifysync.Utils.DAO;
 import com.mobiquity.amarshall.spotifysync.Utils.SpotifyInteractor;
@@ -21,7 +24,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends CommandActivity {
+public class MainActivity extends CommandActivity implements PinFragment.PinListener {
 
     private SpotifyUserValidator validator;
     private SpoqUser userData;
@@ -37,9 +40,9 @@ public class MainActivity extends CommandActivity {
         userData.setUserName("jfowler");
 
         // Lock the UI until we are logged in
-        lockUI();
-        validator = new SpotifyUserValidator();
-        validator.launchLogin(this);
+        //lockUI();
+        //validator = new SpotifyUserValidator();
+        //validator.launchLogin(this);
 
         loadFragmentSlideRight(ServerDebugFragment.newInstance());
     }
@@ -106,5 +109,35 @@ public class MainActivity extends CommandActivity {
         if (!fragmentManager.popBackStackImmediate()) {
             super.onBackPressed();
         }
+    }
+
+
+    @Override
+    public void onJoinClicked(int pin) {
+        //TODO: Refactor all the getActivity calls to use an interface
+        Toast.makeText(this, "Join Playlist: " + pin, Toast.LENGTH_SHORT).show();
+        lockUI();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                unlockUI();
+            }
+        }, 5000);
+    }
+
+    @Override
+    public void onJoinAndListenClicked(int pin) {
+        onJoinClicked(pin);
+    }
+
+    @Override
+    public void onCreateNewPlaylistClicked() {
+        Toast.makeText(MainActivity.this, "Join a new Playlist", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUserImageTapped() {
+        Toast.makeText(MainActivity.this, "User Image Tapped", Toast.LENGTH_SHORT).show();
     }
 }

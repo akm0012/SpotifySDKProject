@@ -7,8 +7,17 @@ import android.os.IBinder;
 
 import com.google.gson.Gson;
 import com.mobiquity.amarshall.spotifysync.Interfaces.WebSocketListener;
+import com.mobiquity.amarshall.spotifysync.Models.BroadcastContainer;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqModel;
+import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
+import com.mobiquity.amarshall.spotifysync.Utils.DAO;
+import com.mobiquity.amarshall.spotifysync.Utils.SpotifyInteractor;
 import com.mobiquity.amarshall.spotifysync.Utils.WebSocketManager;
+
+import java.util.HashMap;
+import java.util.List;
+
+import kaaes.spotify.webapi.android.models.Track;
 
 public class WebSocketService extends Service implements WebSocketListener {
 
@@ -16,6 +25,7 @@ public class WebSocketService extends Service implements WebSocketListener {
     private WebSocketBinder webSocketBinder;
     private WebSocketManager webSocketManager;
     private SpoqModel spoqModel;
+    SpotifyInteractor interactor;
 
     public WebSocketService() {
     }
@@ -26,6 +36,7 @@ public class WebSocketService extends Service implements WebSocketListener {
         webSocketBinder = new WebSocketBinder(this);
         webSocketManager = new WebSocketManager(this);
         webSocketManager.startConnection();
+        interactor = new SpotifyInteractor(DAO.getInstance(this).getPrefSpotifyToken());
     }
 
     @Override
@@ -69,10 +80,19 @@ public class WebSocketService extends Service implements WebSocketListener {
     }
 
     @Override
-    public void onSuccess(SpoqModel model) {
+    public void onSuccess(final SpoqModel model) {
+        List<SpoqTrack> trackListToDownload = WebSocketManager.getPlaylistDiff(spoqModel.getPlaylist().getTrackList(), model.getPlaylist().getTrackList());
+        interactor.getTracksById(trackListToDownload, new SpotifyInteractor.TrackListener() {
+            @Override
+            public void onTracksRetrieved(HashMap<String, Track> tracks) {
+                BroadcastContainer container = new BroadcastContainer();
+                container.setSpoqModel(model);
+                container.setSpotifyTracks(tracks);
+                Gson gson = new Gson();
+                sendBroadcast(gson.toJson(container));
+            }
+        });
         spoqModel = model;
-        Gson gson = new Gson();
-        sendBroadcast(gson.toJson(spoqModel));
     }
 
     @Override

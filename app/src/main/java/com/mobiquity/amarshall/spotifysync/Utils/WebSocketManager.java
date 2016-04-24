@@ -7,6 +7,10 @@ import com.mobiquity.amarshall.spotifysync.Interfaces.WebSocketListener;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 
 /**
  * This class manages the asynctask that the websocket connection runs in.
@@ -58,5 +62,15 @@ public class WebSocketManager {
         if (asyncTask != null) {
             asyncTask.cancel(true);
         }
+    }
+
+    public static List<SpoqTrack> getPlaylistDiff(LinkedHashMap<String, SpoqTrack> oldList, LinkedHashMap<String, SpoqTrack> newList){
+        List<SpoqTrack> trackList = new ArrayList<>();
+        for(SpoqTrack track : newList.values()){
+            if(!oldList.containsKey(track.getTrackId())){
+                trackList.add(track);
+            }
+        }
+        return trackList;
     }
 }

@@ -1,11 +1,12 @@
 package com.mobiquity.amarshall.spotifysync.Models;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * Created by jfowler on 3/31/16.
+ * The model that is stored on the Server
  */
-public class SpoqModel {
+public class SpoqModel implements Serializable {
     private int playlistId;
     /**
      * userMap uses the user's music service id (Spotify for now) as the key to retrieve the SpoqUser info

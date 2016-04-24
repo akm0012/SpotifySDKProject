@@ -1,6 +1,7 @@
 package com.mobiquity.amarshall.spotifysync.Models;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by jfowler on 3/31/16.
@@ -9,10 +10,7 @@ public class SpoqPlaylist {
     private int syncSongIndex;
     private boolean currentlyPlaying;
     private long songSyncTimestamp;
-    /**
-     * Key - The track's id  Value - The SpoqTrack object
-     */
-    private LinkedHashMap<String, SpoqTrack> trackList;
+    private ArrayList<SpoqTrack> trackList;
 
     public int getSyncSongIndex() {
         return syncSongIndex;
@@ -38,35 +36,47 @@ public class SpoqPlaylist {
         this.songSyncTimestamp = songSyncTimestamp;
     }
 
-    public LinkedHashMap<String, SpoqTrack> getTrackList() {
+    public ArrayList<SpoqTrack> getTrackList() {
         return trackList;
     }
 
-    public void setTrackList(LinkedHashMap<String, SpoqTrack> trackList) {
+    public void setTrackList(ArrayList<SpoqTrack> trackList) {
         this.trackList = trackList;
     }
 
     public void addSpoqTrack(SpoqTrack track) {
-        trackList.put(track.getTrackId(), track);
+        trackList.add(track);
     }
 
     public void removeSpoqTrack(SpoqTrack track) {
-        trackList.remove(track.getTrackId());
+        Iterator<SpoqTrack> setIterator = trackList.iterator();
+        while (setIterator.hasNext()) {
+            SpoqTrack o = setIterator.next();
+            if (track.getTrackId().equals(o.getTrackId())) {
+                setIterator.remove();
+            }
+        }
     }
 
     public boolean downVoteSpoqTrack(SpoqTrack track, SpoqUser user) {
-        SpoqTrack searchedTrack = trackList.get(track.getTrackId());
-        if (searchedTrack != null) {
-            searchedTrack.addDownVote(user);
+        boolean trackFound = false;
+        for (SpoqTrack o : trackList) {
+            if (track.getTrackId().equals(o.getTrackId())) {
+                trackFound = true;
+                o.addDownVote(user);
+            }
         }
-        return searchedTrack != null;
+        return trackFound;
     }
 
     public boolean removeDownVote(SpoqTrack track, SpoqUser user) {
-        SpoqTrack searchedTrack = trackList.get(track.getTrackId());
-        if (searchedTrack != null) {
-            searchedTrack.removeDownVote(user);
+        boolean trackFound = false;
+        for (SpoqTrack o : trackList) {
+            if (track.getTrackId().equals(o.getTrackId())) {
+                trackFound = true;
+                o.removeDownVote(user);
+            }
         }
-        return searchedTrack != null;
+        return trackFound;
     }
 }

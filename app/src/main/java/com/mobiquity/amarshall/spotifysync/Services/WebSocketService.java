@@ -25,6 +25,7 @@ public class WebSocketService extends Service implements WebSocketListener {
     private WebSocketBinder webSocketBinder;
     private WebSocketManager webSocketManager;
     private SpoqModel spoqModel;
+    private HashMap<String, Track> downloadedTracks;
     SpotifyInteractor interactor;
 
     public WebSocketService() {
@@ -81,10 +82,11 @@ public class WebSocketService extends Service implements WebSocketListener {
 
     @Override
     public void onSuccess(final SpoqModel model) {
-        List<SpoqTrack> trackListToDownload = WebSocketManager.getPlaylistDiff(spoqModel.getPlaylist().getTrackList(), model.getPlaylist().getTrackList());
+        List<SpoqTrack> trackListToDownload = WebSocketManager.getPlaylistDiff(spoqModel.getPlaylist().getTrackList(), downloadedTracks);
         interactor.getTracksById(trackListToDownload, new SpotifyInteractor.TrackListener() {
             @Override
             public void onTracksRetrieved(HashMap<String, Track> tracks) {
+                downloadedTracks.putAll(tracks);
                 BroadcastContainer container = new BroadcastContainer();
                 container.setSpoqModel(model);
                 container.setSpotifyTracks(tracks);

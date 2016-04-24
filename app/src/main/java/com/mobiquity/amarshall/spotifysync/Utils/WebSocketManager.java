@@ -8,8 +8,11 @@ import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import kaaes.spotify.webapi.android.models.Track;
 
 
 /**
@@ -64,10 +67,10 @@ public class WebSocketManager {
         }
     }
 
-    public static List<SpoqTrack> getPlaylistDiff(LinkedHashMap<String, SpoqTrack> oldList, LinkedHashMap<String, SpoqTrack> newList){
+    public static List<SpoqTrack> getPlaylistDiff(ArrayList<SpoqTrack> spoqTrackList, HashMap<String, Track> spotifyTrackList){
         List<SpoqTrack> trackList = new ArrayList<>();
-        for(SpoqTrack track : newList.values()){
-            if(!oldList.containsKey(track.getTrackId())){
+        for(SpoqTrack track : spoqTrackList){
+            if(!spotifyTrackList.containsKey(track.getTrackId())){
                 trackList.add(track);
             }
         }

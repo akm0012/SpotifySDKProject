@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.mobiquity.amarshall.spotifysync.Models.SpoqTrack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -30,16 +31,16 @@ public class SpotifyInteractor {
         spotifyApi.getService().getMySavedTracks(callback);
     }
 
-   /* public void getTracksById(List<SpoqTrack> trackIds, TrackListener listener) {
+    public void getTracksById(List<SpoqTrack> trackIds, SpotifyInteractor.TrackListener listener) {
         AsyncTrackRetriever asyncTrackRetriever = new AsyncTrackRetriever(listener);
         asyncTrackRetriever.execute(trackIds.toArray(new SpoqTrack[trackIds.size()]));
-    }*/
+    }
 
     public void getUserInfo(Callback<UserPrivate> callback) {
         spotifyApi.getService().getMe(callback);
     }
 
-    /*public class AsyncTrackRetriever extends AsyncTask<SpoqTrack, Void, List<Track>> {
+    public class AsyncTrackRetriever extends AsyncTask<SpoqTrack, Void, HashMap<String, Track>> {
         TrackListener listener;
 
         public AsyncTrackRetriever(TrackListener trackListener) {
@@ -47,20 +48,24 @@ public class SpotifyInteractor {
         }
 
         @Override
-        protected List<Track> doInBackground(SpoqTrack... params) {
-            List<Track> trackList = new ArrayList<>();
+        protected HashMap<String, Track> doInBackground(SpoqTrack... params) {
+            HashMap<String, Track> trackList = new HashMap<>();
             for (SpoqTrack track : params) {
                 Track spotifyTrack = spotifyApi.getService().getTrack(track.getTrackId());
-                trackList.add(spotifyTrack);
+                trackList.put(spotifyTrack.id, spotifyTrack);
             }
             return trackList;
         }
 
         @Override
-        protected void onPostExecute(List<Track> tracks) {
+        protected void onPostExecute(HashMap<String, Track> tracks) {
             super.onPostExecute(tracks);
             listener.onTracksRetrieved(tracks);
             listener = null;
         }
-    }*/
+    }
+
+    public interface TrackListener{
+        void onTracksRetrieved(HashMap<String, Track> tracks);
+    }
 }

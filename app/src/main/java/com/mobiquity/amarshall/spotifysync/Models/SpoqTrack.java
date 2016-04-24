@@ -4,12 +4,15 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by jfowler on 3/31/16.
+ * The track that is stored in the server.
  */
 public class SpoqTrack {
     private String trackId;
     private boolean skipped;
+    /** Used for sorting. */
     private long timeAdded;
+
+    /** The list of the users that down-voted this track. */
     private List<SpoqUser> usersThatVoted;
 
     public String getTrackId() {

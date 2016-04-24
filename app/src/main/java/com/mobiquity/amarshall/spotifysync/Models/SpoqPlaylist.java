@@ -1,6 +1,6 @@
 package com.mobiquity.amarshall.spotifysync.Models;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by jfowler on 3/31/16.
@@ -12,7 +12,7 @@ public class SpoqPlaylist {
     /**
      * Key - The track's id  Value - The SpoqTrack object
      */
-    private HashMap<String, SpoqTrack> trackList;
+    private LinkedHashMap<String, SpoqTrack> trackList;
 
     public int getSyncSongIndex() {
         return syncSongIndex;
@@ -38,11 +38,11 @@ public class SpoqPlaylist {
         this.songSyncTimestamp = songSyncTimestamp;
     }
 
-    public HashMap<String, SpoqTrack> getTrackList() {
+    public LinkedHashMap<String, SpoqTrack> getTrackList() {
         return trackList;
     }
 
-    public void setTrackList(HashMap<String, SpoqTrack> trackList) {
+    public void setTrackList(LinkedHashMap<String, SpoqTrack> trackList) {
         this.trackList = trackList;
     }
 
